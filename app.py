@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Google", layout="wide")
+st.set_page_config(page_title="My Search Engine", layout="wide")
 
 st.markdown("""
 <style>
@@ -17,7 +17,7 @@ body, html, #root > div {
     justify-content: flex-end;
     padding: 15px 30px;
     font-size: 14px;
-    color: #5f6368;
+    color: #444;
     gap: 20px;
     align-items: center;
     position: fixed;
@@ -28,7 +28,7 @@ body, html, #root > div {
 }
 
 .top-nav a {
-    color: #5f6368;
+    color: #444;
     text-decoration: none;
     font-weight: 500;
 }
@@ -49,7 +49,7 @@ body, html, #root > div {
 }
 
 .apps-icon div {
-    background-color: #5f6368;
+    background-color: #666;
     border-radius: 2px;
 }
 
@@ -63,11 +63,12 @@ body, html, #root > div {
     padding-top: 60px; /* for fixed top nav */
 }
 
-/* Google logo */
-.google-logo {
-    width: 272px;
-    height: 92px;
-    margin-bottom: 20px;
+/* Title */
+.title {
+    font-size: 4rem;
+    color: #222;
+    margin-bottom: 30px;
+    font-weight: 700;
 }
 
 /* Search input */
@@ -75,27 +76,27 @@ body, html, #root > div {
     width: 500px;
     max-width: 90vw;
     padding: 12px 20px;
-    font-size: 16px;
-    border: 1px solid #dfe1e5;
-    border-radius: 24px;
-    box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 28px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
     outline: none;
     transition: box-shadow 0.3s ease;
     text-align: center;
 }
 
 .search-input:focus {
-    box-shadow: 0 0 5px rgba(66, 133, 244, 0.8);
-    border-color: #4285F4;
+    box-shadow: 0 0 8px rgba(0, 120, 215, 0.8);
+    border-color: #0078d7;
 }
 </style>
 """, unsafe_allow_html=True)
 
 top_nav_html = """
 <div class="top-nav">
-    <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer">Gmail</a>
-    <a href="https://www.google.com/imghp" target="_blank" rel="noopener noreferrer">Images</a>
-    <div class="apps-icon" title="Google apps">
+    <a href="#">About</a>
+    <a href="#">Help</a>
+    <div class="apps-icon" title="Apps">
         <div></div><div></div><div></div>
         <div></div><div></div><div></div>
         <div></div><div></div><div></div>
@@ -105,13 +106,12 @@ top_nav_html = """
 
 st.markdown(top_nav_html, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="center-content">
-    <img class="google-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google Logo" />
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="center-content">', unsafe_allow_html=True)
+st.markdown('<div class="title">Searchly</div>', unsafe_allow_html=True)
 
-query = st.text_input("", placeholder="Search Google or type a URL", key="search", label_visibility="hidden")
+query = st.text_input("", placeholder="Search the web or enter a URL", key="search", label_visibility="hidden", help="Press Enter to search")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 if query:
     st.write(f'You searched for: {query}')
