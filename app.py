@@ -1,159 +1,241 @@
 import streamlit as st
 
-st.set_page_config(page_title="My Search Engine", layout="wide")
+st.set_page_config(page_title="Google", layout="wide")
 
+# CSS for Google homepage style
 st.markdown("""
 <style>
-/* Remove default Streamlit padding */
-.main {
-    padding-top: 0rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-/* Body and html full height */
+/* Reset and body */
 body, html, #root > div {
     height: 100%;
     margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
 }
 
-/* Top search bar container */
-.top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 20px;
+/* Container for the whole page */
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Top navigation bar on right side */
+.top-nav {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 30px;
+    font-size: 14px;
+    color: #5f6368;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Links in top nav */
+.top-nav a {
+    color: #5f6368;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+.top-nav a:hover {
+    text-decoration: underline;
+}
+
+/* Apps grid icon */
+.apps-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(3, 8px);
+    grid-template-rows: repeat(3, 8px);
+    gap: 6px;
+}
+
+.apps-icon div {
+    background-color: #5f6368;
+    border-radius: 2px;
+}
+
+/* Profile avatar circle */
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #4285f4;
+    color: white;
+    font-weight: bold;
     display: flex;
     justify-content: center;
-    z-index: 1000;
+    align-items: center;
+    font-size: 14px;
+    user-select: none;
 }
 
-/* Top search input */
-.top-bar input[type="text"] {
-    width: 600px;
-    padding: 8px 12px;
-    font-size: 1rem;
-    border: 1px solid #dfe1e5;
-    border-radius: 20px;
-    outline: none;
-    box-shadow: none;
-    transition: box-shadow 0.3s ease;
-}
-
-.top-bar input[type="text"]:focus {
-    box-shadow: 0 0 5px rgba(66, 133, 244, 0.8);
-    border-color: #4285F4;
-}
-
-/* Center container for title and main search */
-.center-container {
+/* Center container for logo and search */
+.center-content {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20vh; /* push content down */
+    justify-content: center;
 }
 
-/* Google style title */
-.title {
-    font-family: Arial, sans-serif;
-    font-weight: 400;
-    font-size: 5rem;
-    color: #4285F4;
-    margin-bottom: 1.5rem;
+/* Google logo */
+.google-logo {
+    width: 272px;
+    height: 92px;
+    margin-bottom: 20px;
 }
 
-/* Main middle search input */
-.center-container input[type="text"] {
-    width: 350px;
-    padding: 10px 15px;
-    font-size: 1.2rem;
+/* Search box container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 584px;
     border: 1px solid #dfe1e5;
+    box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
     border-radius: 24px;
-    box-shadow: none;
+    padding: 0 15px;
+    height: 44px;
+    margin-bottom: 30px;
+}
+
+.search-container input {
+    flex-grow: 1;
+    border: none;
     outline: none;
-    transition: box-shadow 0.3s ease;
-    text-align: center;
+    font-size: 16px;
+    padding: 0 10px;
+    height: 100%;
 }
 
-.center-container input[type="text"]:focus {
-    box-shadow: 0 0 5px rgba(66, 133, 244, 0.8);
-    border-color: #4285F4;
+/* Buttons container */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Search button */
-button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
+.buttons button {
     background-color: #f8f9fa;
     border: 1px solid #f8f9fa;
     border-radius: 4px;
-    cursor: pointer;
     color: #3c4043;
+    font-size: 14px;
+    padding: 10px 16px;
+    cursor: pointer;
     box-shadow: 0 1px 1px rgb(0 0 0 / 0.1);
     transition: background-color 0.2s ease;
 }
 
-button:hover {
-    background-color: #f1f3f4;
+.buttons button:hover {
     border: 1px solid #c6c6c6;
+    background-color: #f1f3f4;
 }
 
-/* Top left 3x3 grid icon */
-.grid-icon {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
+/* Footer */
+.footer {
+    font-size: 14px;
+    color: #70757a;
+    padding: 15px 30px;
+    border-top: 1px solid #e4e4e4;
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 4px;
-    z-index: 1100;
 }
 
-.grid-icon div {
-    background-color: #5f6368;
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
+/* Footer left and right sections */
+.footer div {
+    margin: 5px 0;
+}
+.footer a {
+    color: #70757a;
+    text-decoration: none;
+    margin: 0 8px;
+}
+.footer a:hover {
+    text-decoration: underline;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 3x3 grid icon HTML
-grid_html = """
-<div class="grid-icon" title="Apps">
-  <div></div><div></div><div></div>
-  <div></div><div></div><div></div>
-  <div></div><div></div><div></div>
+# HTML for Google logo from official source
+google_logo = """
+<img class="google-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google Logo" />
+"""
+
+# Top nav with Gmail, Images, apps icon, and profile avatar
+top_nav_html = """
+<div class="top-nav">
+    <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer">Gmail</a>
+    <a href="https://www.google.com/imghp" target="_blank" rel="noopener noreferrer">Images</a>
+    <div class="apps-icon" title="Google apps">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+    </div>
+    <div class="profile-avatar" title="Profile">K</div>
 </div>
 """
-st.markdown(grid_html, unsafe_allow_html=True)
 
-# Top search bar form
-with st.form(key='top_search_form'):
-    st.markdown('<div class="top-bar">', unsafe_allow_html=True)
-    top_query = st.text_input('', placeholder='Search Google or type a URL', key='top_search')
-    top_submitted = st.form_submit_button('Search')
-    st.markdown('</div>', unsafe_allow_html=True)
+# Search input form (submit on Enter)
+search_form_html = """
+<form action="" method="get" onsubmit="return false;">
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search Google or type a URL" autocomplete="off" />
+    </div>
+    <div class="buttons">
+        <button type="submit" onclick="submitSearch()">Google Search</button>
+        <button type="submit" onclick="feelingLucky()">I'm Feeling Lucky</button>
+    </div>
+</form>
 
-# Center content with Google title and smaller search box
-st.markdown('<div class="center-container">', unsafe_allow_html=True)
-st.markdown('<div class="title">Google</div>', unsafe_allow_html=True)
+<script>
+    const input = document.getElementById('searchInput');
+    input.addEventListener('keydown', function(event) {
+        if(event.key === 'Enter') {
+            submitSearch();
+        }
+    });
 
-with st.form(key='center_search_form'):
-    center_query = st.text_input('', placeholder='Search Google or type a URL', key='center_search')
-    center_submitted = st.form_submit_button('Google Search')
+    function submitSearch() {
+        const query = input.value.trim();
+        if (query.length > 0) {
+            alert("You searched for: " + query);
+            // Here you can add code to actually do a search
+        }
+    }
+    function feelingLucky() {
+        const query = input.value.trim();
+        if (query.length > 0) {
+            alert("I'm Feeling Lucky search for: " + query);
+            // Here you can add code for "I'm Feeling Lucky"
+        }
+    }
+</script>
+"""
+
+footer_html = """
+<div class="footer">
+    <div>United States</div>
+    <div>
+        <a href="#">Advertising</a>
+        <a href="#">Business</a>
+        <a href="#">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Settings</a>
+    </div>
+</div>
+"""
+
+# Build full page
+st.markdown('<div class="page">', unsafe_allow_html=True)
+st.markdown(top_nav_html, unsafe_allow_html=True)
+st.markdown(google_logo, unsafe_allow_html=True)
+st.markdown(search_form_html, unsafe_allow_html=True)
+st.markdown(footer_html, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
-
-# Show what was searched from either bar
-if top_submitted and top_query.strip() != '':
-    st.write(f'You searched (top bar): {top_query}')
-
-if center_submitted and center_query.strip() != '':
-    st.write(f'You searched (center bar): {center_query}')
