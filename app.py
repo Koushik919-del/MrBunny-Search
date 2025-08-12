@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import urllib.parse
 
-st.set_page_config(page_title="My Search Engine", page_icon="🔍")
+st.set_page_config(page_title="MrBunny Search", page_icon="🔍")
 
 # CSS to center content and style like Google
 st.markdown("""
@@ -59,7 +59,7 @@ query_from_url = st.query_params.get("q", [""])[0]
 
 with st.container():
     st.markdown('<div class="main">', unsafe_allow_html=True)
-    st.markdown('<h1 style="font-weight:normal;">My Search Engine</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 style="font-weight:normal;">MrBunny Search</h1>', unsafe_allow_html=True)
     
     query = st.text_input("", value=query_from_url, key="search_input", placeholder="Search the web")
     
